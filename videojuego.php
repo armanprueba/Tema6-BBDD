@@ -23,9 +23,54 @@
     </div> 
     <input type="submit" name="submit" id="submit" value="Subir">  
     </form> 
-    <?php
-        include "videojuegoConexion.php"
-    ?>
 
+        <?php
+            
+
+            $consulta = $pdo->query("SELECT * FROM task");
+            $consulta -> setFetchMode(PDO::FETCH_ASSOC);
+            $consulta->execute();
+
+
+            /*while($registro = $consulta->fetch())
+            {
+            echo $registro['description']."<br>";
+            }*/
+            
+            // Iniciamos la tabla
+            $concat_tabla = '<table border="1">';
+        
+            // Creamos la fila de encabezados
+            $concat_tabla .= '<tr>';
+            $concat_tabla .= '<th> ID</th>';
+            $concat_tabla .= '<th> Título </th>';
+            $concat_tabla .= '<th> Descripción </th>';
+            $concat_tabla .= '<th> Fecha de creación </th>';
+            $concat_tabla .= '<th> Acción </th>';
+            $concat_tabla .= '</tr>';
+        
+            // Añadimos la fila de los votos
+            
+
+            while($registro = $consulta->fetch())
+                {   
+                    $id_juego = $registro['id'];
+                    $concat_tabla .= '<tr>';
+                    $concat_tabla .= '<td>' . $registro['id'] .'</td>';
+                    $concat_tabla .= '<td>' . $registro['title'] .'</td>';
+                    $concat_tabla .= '<td>' . $registro['description'] .'</td>';
+                    $concat_tabla .= '<td>' . $registro['created_at'] .'</td>';
+                    $concat_tabla .= '<td> <form name="login" method="POST" action="actualizarjuego.php"><button type="submit" name="btn_actualizar" class="btn btn-primary">Registrar</button></form> </td>';
+                    $concat_tabla .= '</tr>';
+                    
+                }
+        
+            // Cerramos la tabla
+            $concat_tabla .= '</table>';
+        
+            // Mostramos la tabla
+            echo $concat_tabla;
+        ?>
+    <?php ?>
 </body> 
 </html> 
